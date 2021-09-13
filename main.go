@@ -13,19 +13,28 @@ import (
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
-var PORT = 22890
 var VERSION = "VERSION"
+
+const PORT = 22890
 const LOG_FILE = "break-timer.log"
+const SETTINGS_FILE = "settings.json"
+const PLAY = "play"
+const STOP = "stop"
 
 var logger *lumberjack.Logger
+var timerCh chan string
+var playerCh chan string
 
 func init() {
+	timerCh = make(chan string)
+	playerCh = make(chan string)
+
 	log.SetFormatter(&log.JSONFormatter{
 		TimestampFormat: time.StampMilli,
 	})
 
 	logger = &lumberjack.Logger{
-		Filename:   getLogFileName(),
+		Filename:   getOsFilePath(LOG_FILE),
 		MaxSize:    1, //megabytes
 		MaxBackups: 1,
 		MaxAge:     1, //days
@@ -36,35 +45,36 @@ func init() {
 	log.SetLevel(log.DebugLevel)
 }
 
-func getLogFileName() string {
+func getOsFilePath(f string) string {
 	//Linux
 	if runtime.GOOS == "linux" {
-		return "/var/log/break-timer/" + LOG_FILE
+		return "/var/log/break-timer/" + f
 	}
 
 	home, err := os.UserHomeDir()
 	if err != nil {
-		return LOG_FILE
+		return f
 	}
 
 	//OSX
 	if runtime.GOOS == "darwin" {
-		return home + "/Library/BreakTimer/" + LOG_FILE
+		return home + "/Library/BreakTimer/" + f
 	}
 
-	return LOG_FILE
+	return f
 }
 
 func main() {
 
-	r := mux.NewRouter()
+	go start()
+	go play()
 
-	//middleware
+	r := mux.NewRouter()
 	r.Use(mw)
 
 	//routes
 	//r.HandleFunc("/about", about).Methods(http.MethodGet, http.MethodOptions)
-	r.HandleFunc("/set-timers", setTimers).Methods(http.MethodGet, http.MethodOptions)
+	r.HandleFunc("/set-timers", setTimers).Methods(http.MethodPost, http.MethodOptions)
 	r.HandleFunc("/stop", stop).Methods(http.MethodGet, http.MethodOptions)
 
 	http.Handle("/", r)
