@@ -1,9 +1,10 @@
 package main
 
 import (
-	log "github.com/sirupsen/logrus"
 	"os"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/faiface/beep"
 	"github.com/faiface/beep/mp3"
@@ -13,7 +14,7 @@ import (
 var buffer *beep.Buffer
 
 func init() {
-	f, err := os.Open("beep.mp3")
+	f, err := os.Open("/usr/local/bin/beep.mp3")
 	if err != nil {
 		log.Fatal(err)
 	}
