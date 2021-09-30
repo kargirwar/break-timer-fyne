@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"strconv"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -11,18 +10,16 @@ import (
 )
 
 type uiCmd struct {
-	index int
+	cmd  string
+	data interface{}
 }
 
 var ch chan *uiCmd
 var gui *fyne.Container
 var i int
 
-var m map[int]*fyne.Container
-
 func main() {
 	ch = make(chan *uiCmd)
-	m = make(map[int]*fyne.Container)
 
 	go uiHandler()
 
@@ -33,9 +30,7 @@ func main() {
 	btn := widget.NewButton("Add rule", func() {
 		log.Println("tapped")
 		ctrl := NewCtrl()
-		m[i] = ctrl(i)
-		gui.Add(m[i])
-		i++
+		gui.Add(ctrl())
 	})
 	gui.Add(btn)
 
@@ -47,12 +42,8 @@ func uiHandler() {
 	for {
 		select {
 		case c := <-ch:
-			log.Println("Cmd received:" + strconv.Itoa(c.index))
-			e := m[c.index]
-			if gui == nil {
-				log.Println("Returning due to nil")
-				return
-			}
+			log.Println("Cmd received:" + c.cmd)
+			e := c.data.(*fyne.Container)
 			gui.Remove(e)
 		}
 	}

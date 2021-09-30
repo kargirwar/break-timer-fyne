@@ -8,17 +8,17 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-func NewCtrl() func(int) *fyne.Container {
-	return func(i int) *fyne.Container {
+func NewCtrl() func() *fyne.Container {
+	vbox := container.NewVBox()
+	return func() *fyne.Container {
 		//top row
-		vbox := container.NewVBox()
 		txt := widget.NewLabel("Take a break every: ")
 		sel := widget.NewSelect([]string{"Option 1", "Option 2"}, func(value string) {
 			log.Println("Select interval to", value)
 		})
 
 		btn := widget.NewButton("X", func() {
-			ch <- &uiCmd{index: i}
+			ch <- &uiCmd{cmd: "remove", data: vbox}
 			log.Println("tapped")
 		})
 		ctrl := container.NewHBox(txt, sel, btn)
