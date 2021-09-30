@@ -16,7 +16,6 @@ type uiCmd struct {
 
 var ch chan *uiCmd
 var gui *fyne.Container
-var i int
 
 func main() {
 	ch = make(chan *uiCmd)

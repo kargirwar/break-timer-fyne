@@ -2,18 +2,35 @@ package main
 
 import (
 	"log"
+	"strconv"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 )
 
+func intervals() []string {
+	var intervals []string
+	for i := 10; i <= 60; i += 5 {
+		intervals = append(intervals, strconv.Itoa(i)+" mins")
+	}
+	return intervals
+}
+
+func hours() []string {
+	var hours []string
+	for i := 0; i <= 24; i += 1 {
+		hours = append(hours, strconv.Itoa(i)+" hours")
+	}
+	return hours
+}
+
 func NewCtrl() func() *fyne.Container {
 	vbox := container.NewVBox()
 	return func() *fyne.Container {
 		//top row
 		txt := widget.NewLabel("Take a break every: ")
-		sel := widget.NewSelect([]string{"Option 1", "Option 2"}, func(value string) {
+		sel := widget.NewSelect(intervals(), func(value string) {
 			log.Println("Select interval to", value)
 		})
 
@@ -36,11 +53,11 @@ func NewCtrl() func() *fyne.Container {
 
 		//bottom row
 		txt = widget.NewLabel("From: ")
-		sel1 := widget.NewSelect([]string{"0", "1"}, func(value string) {
+		sel1 := widget.NewSelect(hours(), func(value string) {
 			log.Println("Set from: ", value)
 		})
 
-		sel2 := widget.NewSelect([]string{"0", "1"}, func(value string) {
+		sel2 := widget.NewSelect(hours(), func(value string) {
 			log.Println("Set to: ", value)
 		})
 		ctrl = container.NewHBox(txt, sel1, sel2)
