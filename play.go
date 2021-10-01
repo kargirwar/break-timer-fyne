@@ -4,7 +4,7 @@ import (
 	"os"
 	"time"
 
-	log "github.com/sirupsen/logrus"
+	"log"
 
 	"github.com/faiface/beep"
 	"github.com/faiface/beep/mp3"

@@ -1,46 +1,24 @@
 package main
 
 import (
-	"encoding/json"
-	"io/ioutil"
-	"strconv"
 	"time"
 
-	log "github.com/sirupsen/logrus"
+	"log"
 )
 
 const STOP_AFTER = 10 //seconds
-type rule struct {
-	Frequency string
-	Days      []string
-	Start     string
-	End       string
-}
-
-func start() {
+func start(rules []Rule) {
 	log.Println("Starting timer thread")
 
 	var alarms map[string]map[int][]int
-
-	//check if any timers have already been setup
-	f := getOsFilePath(SETTINGS_FILE)
-	settings, err := ioutil.ReadFile(f)
-
-	if err == nil {
-		rules := parseRules(string(settings))
-		log.Println(rules)
-		alarms = getAlarms(rules)
-		log.Println(alarms)
-	}
+	alarms = getAlarms(rules)
 
 	ticker := time.NewTicker(time.Minute)
 	defer ticker.Stop()
 
 	for {
 		select {
-		case jsonstr := <-timerCh:
-			//jsonstr = `[{"frequency":"1","days":["Tuesday"], "start": "09", "end": "10"}]`
-			rules := parseRules(jsonstr)
+		case rules = <-timerCh:
 			log.Println(rules)
 			alarms = getAlarms(rules)
 			log.Println(alarms)
@@ -59,27 +37,16 @@ func start() {
 	}
 }
 
-//parse rules received in json format from UI
-func parseRules(jsonstr string) []rule {
-	var rules []rule
-	err := json.Unmarshal([]byte(jsonstr), &rules)
-	if err != nil {
-		log.Println(err)
-	}
-
-	return rules
-}
-
 //for each day, for each hour find the minutes at which alarm should be sounded
-func getAlarms(rules []rule) map[string]map[int][]int {
+func getAlarms(rules []Rule) map[string]map[int][]int {
 	var alarms = make(map[string]map[int][]int)
 	for _, r := range rules {
 		hours := make(map[int][]int)
 		for _, d := range r.Days {
 			alarms[d] = hours
-			s, _ := strconv.Atoi(r.Start)
-			e, _ := strconv.Atoi(r.End)
-			f, _ := strconv.Atoi(r.Frequency)
+			s := r.Start
+			e := r.End
+			f := r.Interval
 			hrs := getHours(s, e)
 
 			i := 0

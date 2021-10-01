@@ -67,11 +67,11 @@ func (r *Rule) String() string {
 	return fmt.Sprintf("Interval: %d Days %v Start %d End %d", r.Interval, r.Days, r.Start, r.End)
 }
 
-func (c *TimerCtrl) rule() *Rule {
-	return &Rule{Interval: c.interval, Days: c.days, Start: c.start, End: c.end}
+func (c *TimerCtrl) rule() Rule {
+	return Rule{Interval: c.interval, Days: c.days, Start: c.start, End: c.end}
 }
 
-func (c *TimerCtrl) ui() *fyne.Container {
+func (c *TimerCtrl) ui(r Rule) *fyne.Container {
 	if c.vbox != nil {
 		return c.vbox
 	}
@@ -86,6 +86,10 @@ func (c *TimerCtrl) ui() *fyne.Container {
 		c.interval, _ = strconv.Atoi(v)
 		log.Printf("%s: Set interval to %d", c.id, c.interval)
 	})
+
+	if r.Interval > 0 {
+		sel.SetSelected(strconv.Itoa(r.Interval) + " mins")
+	}
 
 	btn := widget.NewButton("X", func() {
 		ch <- &uiCmd{cmd: "remove", data: c.id}
@@ -104,6 +108,12 @@ func (c *TimerCtrl) ui() *fyne.Container {
 	ctrl = container.NewHBox(txt, sel)
 
 	c.vbox.Add(ctrl)
+
+	daysType := getDaysType(r)
+
+	if daysType != "" {
+		sel.SetSelected(daysType)
+	}
 
 	//bottom row
 	txt = widget.NewLabel("From: ")
@@ -131,5 +141,31 @@ func (c *TimerCtrl) ui() *fyne.Container {
 
 	c.vbox.Add(ctrl)
 
+	sel1.SetSelected(strconv.Itoa(r.Start) + " hours")
+	sel2.SetSelected(strconv.Itoa(r.End) + " hours")
+
 	return c.vbox
+}
+
+func getDaysType(r Rule) string {
+	days := r.Days
+	if len(days) == 0 {
+		return ""
+	}
+
+	for _, d := range days {
+		if d == "Monday" {
+			return "Weekdays"
+		}
+
+		if d == "Saturday" {
+			return "Weekends"
+		}
+
+		if d == "Sunday" {
+			return "Weekends"
+		}
+	}
+
+	return ""
 }
