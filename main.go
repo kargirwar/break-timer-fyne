@@ -16,9 +16,11 @@ type uiCmd struct {
 
 var ch chan *uiCmd
 var gui *fyne.Container
+var ctrls map[string]*TimerCtrl
 
 func main() {
 	ch = make(chan *uiCmd)
+	ctrls = make(map[string]*TimerCtrl)
 
 	go uiHandler()
 
@@ -26,15 +28,42 @@ func main() {
 	window := app.NewWindow("Break Timer")
 
 	gui = container.NewVBox()
-	btn := widget.NewButton("Add rule", func() {
-		log.Println("tapped")
-		ctrl := NewCtrl()
-		gui.Add(ctrl())
-	})
-	gui.Add(btn)
+	btns := container.NewHBox(
+		widget.NewButton("Add rule", func() {
+			log.Println("Adding new rule")
+			ctrl := NewTimerCtrl()
+			ctrls[ctrl.uid()] = ctrl
+			gui.Add(ctrl.ui())
+		}),
+
+		widget.NewButton("Save rules", func() {
+			setRules()
+		}),
+	)
+
+	gui.Add(btns)
 
 	window.SetContent(gui)
+	window.Resize(fyne.NewSize(300, 200))
 	window.ShowAndRun()
+}
+
+//func runPopUp(w fyne.Window) (modal *widget.PopUp) {
+//modal = widget.NewModalPopUp(
+//container.NewVBox(
+//widget.NewLabel("bar"),
+//widget.NewButton("Close", func() { modal.Hide() }),
+//),
+//w.Canvas(),
+//)
+//modal.Show()
+//return modal
+//}
+
+func setRules() {
+	for _, v := range ctrls {
+		log.Println(v.rule())
+	}
 }
 
 func uiHandler() {
@@ -42,8 +71,14 @@ func uiHandler() {
 		select {
 		case c := <-ch:
 			log.Println("Cmd received:" + c.cmd)
-			e := c.data.(*fyne.Container)
-			gui.Remove(e)
+			id := c.data.(string)
+			ctrl, ok := ctrls[id]
+			if !ok {
+				log.Println("Unable to remove " + id)
+				continue
+			}
+			gui.Remove(ctrl.ui())
+			delete(ctrls, id)
 		}
 	}
 }
