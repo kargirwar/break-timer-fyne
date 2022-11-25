@@ -2,19 +2,24 @@ package main
 
 import (
     "time"
-    "os"
+    //"os"
     "bytes"
+    _ "embed"
 
     "github.com/hajimehoshi/go-mp3"
     "github.com/hajimehoshi/oto/v2"
 )
 
+//go:embed beep.mp3
+var fileBytes []byte
+
 func main() {
     // Read the mp3 file into memory
-    fileBytes, err := os.ReadFile("./beep.mp3")
-    if err != nil {
-        panic("reading my-file.mp3 failed: " + err.Error())
-    }
+    //fileBytes, err := os.ReadFile("./beep.mp3")
+    //fileBytes, err := os.ReadFile(f)
+    //if err != nil {
+        //panic("reading my-file.mp3 failed: " + err.Error())
+    //}
 
     // Convert the pure bytes into a reader object that can be used with the mp3 decoder
     fileBytesReader := bytes.NewReader(fileBytes)
