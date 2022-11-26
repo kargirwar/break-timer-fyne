@@ -1,0 +1,47 @@
+body {
+	font-family: sans-serif;
+}
+#container {
+	display: grid;
+	grid-template-rows: 1fr 10fr;
+	padding: 1em;
+}
+
+#controls {
+	display:grid;
+	grid-template-columns: 2fr 3fr 1fr;
+}
+
+.rule-container {
+	margin-top: 1em;
+	padding: 0.5em;
+	border: 1px solid #eee;
+}
+
+#save-rules,
+#num-of-rules {
+	display: grid;
+	place-items: center;
+}
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.days-container,
+.interval-container {
+	display: grid;
+	grid-template-columns: 2fr 8fr;
+	margin-top: 0.5em
+}
+
+.time-container {
+	display: grid;
+	grid-template-columns: 1fr 4fr 1fr 4fr;
+	margin-top: 0.5em
+}

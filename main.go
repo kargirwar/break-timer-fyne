@@ -16,7 +16,7 @@ import (
 )
 
 const LOG_FILE = "break-timer.log"
-var ALLOW = "http://127.0.0.1:1430"
+var ALLOW = "http://localhost:8080"
 var PORT = 21890
 
 var logger *lumberjack.Logger

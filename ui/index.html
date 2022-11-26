@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/all.min.css">
+    <link rel="stylesheet" href="/css/bulma.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+  </head>
+  <body>
+    <div id="container">
+      <div id="controls">
+        <button class="button" id="add-rule"><span class="icon"><i class="fa-solid fa-plus"></i></span><span>Add Rule</span></button>
+        <div id="num-of-rules">No rules</div>
+        <div id="save-rules"><i class="fa-solid fa-floppy-disk"></i></div>
+      </div>
+      <div id="rules"></div>
+    </div>
+    <script type="module" src="/js/index.js"></script>
+    <script id="rule-template" type="code">
+      <div class="rule-container"><span>Take a break: <br></span>
+        <div class="interval-container"><span>every</span>
+          <select class="interval">
+            <option value="10">10 mins</option>
+            <option value="15">15 mins</option>
+            <option value="20">20 mins</option>
+            <option value="25">25 mins</option>
+            <option value="30" selected>30 mins</option>
+            <option value="35">35 mins</option>
+            <option value="40">40 mins</option>
+            <option value="45">45 mins</option>
+            <option value="50">50 mins</option>
+            <option value="55">55 mins</option>
+            <option value="60">60 mins</option>
+          </select>
+        </div>
+        <div class="days-container"><span>on</span>
+          <select class="days">
+            <option value="weekdays" selected>Weekdays</option>
+            <option value="weekends">Weekends</option>
+          </select>
+        </div>
+        <div class="time-container"><span>from</span>
+          <select class="from">
+            <option value="0">0 hours </option>
+            <option value="1">1 hours </option>
+            <option value="2">2 hours </option>
+            <option value="3">3 hours </option>
+            <option value="4">4 hours </option>
+            <option value="5">5 hours </option>
+            <option value="6">6 hours </option>
+            <option value="7">7 hours </option>
+            <option value="8">8 hours </option>
+            <option value="9" selected>9 hours </option>
+            <option value="10">10 hours </option>
+            <option value="11">11 hours </option>
+            <option value="12">12 hours </option>
+            <option value="13">13 hours </option>
+            <option value="14">14 hours </option>
+            <option value="15">15 hours </option>
+            <option value="16">16 hours </option>
+            <option value="17">17 hours </option>
+            <option value="18">18 hours </option>
+            <option value="19">19 hours </option>
+            <option value="20">20 hours </option>
+            <option value="21">21 hours </option>
+            <option value="22">22 hours </option>
+            <option value="23">23 hours </option>
+            <option value="24">24 hours </option>
+          </select><span>to</span>
+          <select class="to">
+            <option value="1">1 hours </option>
+            <option value="2">2 hours </option>
+            <option value="3">3 hours </option>
+            <option value="4">4 hours </option>
+            <option value="5">5 hours </option>
+            <option value="6">6 hours </option>
+            <option value="7">7 hours </option>
+            <option value="8">8 hours </option>
+            <option value="9">9 hours </option>
+            <option value="10">10 hours </option>
+            <option value="11">11 hours </option>
+            <option value="12">12 hours </option>
+            <option value="13">13 hours </option>
+            <option value="14">14 hours </option>
+            <option value="15">15 hours </option>
+            <option value="16">16 hours </option>
+            <option value="17" selected>17 hours </option>
+            <option value="18">18 hours </option>
+            <option value="19">19 hours </option>
+            <option value="20">20 hours </option>
+            <option value="21">21 hours </option>
+            <option value="22">22 hours </option>
+            <option value="23">23 hours </option>
+            <option value="24">24 hours </option>
+          </select>
+        </div>
+      </div>
+    </script>
+  </body>
+</html>
