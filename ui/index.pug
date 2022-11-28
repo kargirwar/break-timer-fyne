@@ -22,83 +22,23 @@ html
 
         script(type="module" src="/js/index.js")
         script#rule-template(type="code")
-            .rule-container
+            .rule-container(id="{i}")
+                i.del-rule.fa-solid.fa-trash(id="del-{i}")
                 span Take a break: #[br]
                 .interval-container
                     span every
                     select.interval
-                        option(value=10) 10 mins
-                        option(value=15) 15 mins
-                        option(value=20) 20 mins
-                        option(value=25) 25 mins
-                        option(value=30 selected) 30 mins
-                        option(value=35) 35 mins
-                        option(value=40) 40 mins
-                        option(value=45) 45 mins
-                        option(value=50) 50 mins
-                        option(value=55) 55 mins
-                        option(value=60) 60 mins
-
+                       include ./intervals.pug 
                 .days-container
                     span on
-                    select.days
-                        option(value="weekdays" selected) Weekdays
-                        option(value="weekends") Weekends
-
+                    include ./days.pug 
+                    
                 .time-container
                     span from
                     select.from
-                        option(value="0") 0 hours 
-                        option(value="1") 1 hours 
-                        option(value="2") 2 hours 
-                        option(value="3") 3 hours 
-                        option(value="4") 4 hours 
-                        option(value="5") 5 hours 
-                        option(value="6") 6 hours 
-                        option(value="7") 7 hours 
-                        option(value="8") 8 hours 
-                        option(value="9" selected) 9 hours 
-                        option(value="10") 10 hours 
-                        option(value="11") 11 hours 
-                        option(value="12") 12 hours 
-                        option(value="13") 13 hours 
-                        option(value="14") 14 hours 
-                        option(value="15") 15 hours 
-                        option(value="16") 16 hours 
-                        option(value="17") 17 hours 
-                        option(value="18") 18 hours 
-                        option(value="19") 19 hours 
-                        option(value="20") 20 hours 
-                        option(value="21") 21 hours 
-                        option(value="22") 22 hours 
-                        option(value="23") 23 hours 
-                        option(value="24") 24 hours 
-
-                    span to
+                       include ./from.pug 
+                        
+                    span &nbsp;&nbsp;to
 
                     select.to
-                        option(value="1") 1 hours 
-                        option(value="2") 2 hours 
-                        option(value="3") 3 hours 
-                        option(value="4") 4 hours 
-                        option(value="5") 5 hours 
-                        option(value="6") 6 hours 
-                        option(value="7") 7 hours 
-                        option(value="8") 8 hours 
-                        option(value="9") 9 hours 
-                        option(value="10") 10 hours 
-                        option(value="11") 11 hours 
-                        option(value="12") 12 hours 
-                        option(value="13") 13 hours 
-                        option(value="14") 14 hours 
-                        option(value="15") 15 hours 
-                        option(value="16") 16 hours 
-                        option(value="17" selected) 17 hours 
-                        option(value="18") 18 hours 
-                        option(value="19") 19 hours 
-                        option(value="20") 20 hours 
-                        option(value="21") 21 hours 
-                        option(value="22") 22 hours 
-                        option(value="23") 23 hours 
-                        option(value="24") 24 hours 
-
+                       include ./to.pug 

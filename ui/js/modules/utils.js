@@ -1,4 +1,13 @@
 class Utils {
+
+	static saveToLocalStorage(key, value) {
+		window.localStorage.setItem(key, value);
+	}
+
+	static getFromLocalStorage(key) {
+		return window.localStorage.getItem(key) ?? null;
+	}
+
 	static processTemplate(templ, data) {
 		var re = new RegExp(/{(.*?)}/g);
 		templ = templ.replace(re, function(match, p1) {

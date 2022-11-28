@@ -13,15 +13,27 @@ body {
 }
 
 .rule-container {
+	position:relative;
 	margin-top: 1em;
 	padding: 0.5em;
 	border: 1px solid #eee;
+}
+
+.del-rule {
+	position: absolute;
+	top: 1em;
+	right: 1em;
+	cursor: pointer;
 }
 
 #save-rules,
 #num-of-rules {
 	display: grid;
 	place-items: center;
+}
+
+#save-rules {
+	cursor: pointer;
 }
 
 .icon {
@@ -33,10 +45,15 @@ body {
   fill: currentColor;
 }
 
-.days-container,
 .interval-container {
 	display: grid;
 	grid-template-columns: 2fr 8fr;
+	margin-top: 0.5em
+}
+
+.days-container {
+	display: grid;
+	grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 	margin-top: 0.5em
 }
 

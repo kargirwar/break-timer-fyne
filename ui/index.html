@@ -18,7 +18,7 @@
     </div>
     <script type="module" src="/js/index.js"></script>
     <script id="rule-template" type="code">
-      <div class="rule-container"><span>Take a break: <br></span>
+      <div class="rule-container" id="{i}"><i class="del-rule fa-solid fa-trash" id="del-{i}"></i><span>Take a break: <br></span>
         <div class="interval-container"><span>every</span>
           <select class="interval">
             <option value="10">10 mins</option>
@@ -35,10 +35,20 @@
           </select>
         </div>
         <div class="days-container"><span>on</span>
-          <select class="days">
-            <option value="weekdays" selected>Weekdays</option>
-            <option value="weekends">Weekends</option>
-          </select>
+          <input type="checkbox" name="days" value="Monday" id="Monday-{i}" checked>
+          <label for="Monday-{i}">M</label>
+          <input type="checkbox" name="days" value="Tuesday" id="Tuesday-{i}" checked>
+          <label for="Tuesday-{i}">Tu</label>
+          <input type="checkbox" name="days" value="Wednesday" id="Wednesday-{i}" checked>
+          <label for="Wednesday-{i}">W</label>
+          <input type="checkbox" name="days" value="Thursday" id="Thursday-{i}" checked>
+          <label for="Thursday-{i}">Th</label>
+          <input type="checkbox" name="days" value="Friday" id="Friday-{i}" checked>
+          <label for="Friday-{i}">F</label>
+          <input type="checkbox" name="days" value="Saturday" id="Saturday-{i}">
+          <label for="Saturday-{i}">Sa</label>
+          <input type="checkbox" name="days" value="Sunday" id="Sunday-{i}">
+          <label for="Sunday-{i}">Su</label>
         </div>
         <div class="time-container"><span>from</span>
           <select class="from">
@@ -67,7 +77,7 @@
             <option value="22">22 hours </option>
             <option value="23">23 hours </option>
             <option value="24">24 hours </option>
-          </select><span>to</span>
+          </select><span>&nbsp;&nbsp;to</span>
           <select class="to">
             <option value="1">1 hours </option>
             <option value="2">2 hours </option>
