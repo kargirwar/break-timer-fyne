@@ -1,10 +1,10 @@
 package main
 
 import (
-	"os"
-	"time"
 	"context"
 	"fmt"
+	"os"
+	"time"
 
 	"log"
 
@@ -57,13 +57,14 @@ func play() {
 		case <-ticker.C:
 			locked, err := macos.IsScreenLocked(context.Background())
 			if err == nil {
-				if !locked {
-					shot := buffer.Streamer(0, buffer.Len())
-					speaker.Play(shot)
+				if locked {
+					utils.Dbg(context.Background(), "Screen locked")
 					continue
 				}
 
-				utils.Dbg(context.Background(), "Screen locked")
+				shot := buffer.Streamer(0, buffer.Len())
+				speaker.Play(shot)
+
 			} else {
 				utils.Dbg(context.Background(), err.Error())
 			}
