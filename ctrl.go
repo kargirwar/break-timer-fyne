@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"regexp"
 	"strconv"
+	"context"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 	"github.com/dchest/uniuri"
+	"github.com/kargirwar/golang/utils"
 )
 
 func intervals() []string {
@@ -84,7 +85,7 @@ func (c *TimerCtrl) ui(r Rule) *fyne.Container {
 		v := r.ReplaceAllString(value, "")
 		//safe to ignore error here. The strings are all our own
 		c.interval, _ = strconv.Atoi(v)
-		log.Printf("%s: Set interval to %d", c.id, c.interval)
+		utils.Dbg(context.Background(), fmt.Sprintf("%s: Set interval to %d", c.id, c.interval))
 	})
 
 	if r.Interval > 0 {
@@ -93,7 +94,7 @@ func (c *TimerCtrl) ui(r Rule) *fyne.Container {
 
 	btn := widget.NewButton("X", func() {
 		ch <- &uiCmd{cmd: "remove", data: c.id}
-		log.Println("tapped")
+		utils.Dbg(context.Background(), fmt.Sprintln("tapped"))
 	})
 	ctrl := container.NewHBox(txt, sel, btn)
 
@@ -102,7 +103,7 @@ func (c *TimerCtrl) ui(r Rule) *fyne.Container {
 	//middle row
 	txt = widget.NewLabel("On: ")
 	sel = widget.NewSelect([]string{"Weekdays", "Weekends"}, func(value string) {
-		log.Printf("%s: Select days to %s", c.id, value)
+		utils.Dbg(context.Background(), fmt.Sprintf("%s: Select days to %s", c.id, value))
 		c.days = getDays(value)
 	})
 	ctrl = container.NewHBox(txt, sel)
@@ -127,7 +128,7 @@ func (c *TimerCtrl) ui(r Rule) *fyne.Container {
 		//}
 
 		c.start = start
-		log.Printf("%s: Select start to %d", c.id, c.start)
+		utils.Dbg(context.Background(), fmt.Sprintf("%s: Select start to %d", c.id, c.start))
 	})
 
 	sel2 := widget.NewSelect(hours(), func(value string) {
@@ -135,7 +136,7 @@ func (c *TimerCtrl) ui(r Rule) *fyne.Container {
 		v := r.ReplaceAllString(value, "")
 		end, _ := strconv.Atoi(v)
 		c.end = end
-		log.Printf("%s: Select end to %d", c.id, c.end)
+		utils.Dbg(context.Background(), fmt.Sprintf("%s: Select end to %d", c.id, c.end))
 	})
 	ctrl = container.NewHBox(txt, sel1, sel2)
 

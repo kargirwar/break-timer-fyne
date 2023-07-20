@@ -3,14 +3,16 @@ package main
 import (
 	"encoding/json"
 	"io/ioutil"
-	"log"
 	"os"
 	"runtime"
+	"context"
+	"fmt"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
+	"github.com/kargirwar/golang/utils"
 )
 
 const SETTINGS_FILE = "settings.json"
@@ -28,13 +30,6 @@ var ctrls map[string]*TimerCtrl
 var timerCh chan []Rule
 var playerCh chan string
 
-func init() {
-	timerCh = make(chan []Rule)
-	playerCh = make(chan string)
-	ch = make(chan *uiCmd)
-	ctrls = make(map[string]*TimerCtrl)
-}
-
 func getSavedRules() []Rule {
 	//check if any timers have already been setup
 	f := getOsFilePath(SETTINGS_FILE)
@@ -42,7 +37,7 @@ func getSavedRules() []Rule {
 
 	if err == nil {
 		rules := parseRules(string(settings))
-		log.Println(rules)
+		utils.Dbg(context.Background(), fmt.Sprint(rules))
 		return rules
 	}
 
@@ -73,7 +68,7 @@ func main() {
 	gui = container.NewVBox()
 	btns := container.NewHBox(
 		widget.NewButton("Add rule", func() {
-			log.Println("Adding new rule")
+			utils.Dbg(context.Background(), "Adding new rule")
 			ctrl := NewTimerCtrl()
 			ctrls[ctrl.uid()] = ctrl
 			gui.Add(ctrl.ui(Rule{}))
@@ -112,11 +107,12 @@ func uiHandler() {
 	for {
 		select {
 		case c := <-ch:
-			log.Println("Cmd received:" + c.cmd)
+			utils.Dbg(context.Background(), "Cmd received:" + c.cmd)
 			id := c.data.(string)
 			ctrl, ok := ctrls[id]
 			if !ok {
-				log.Println("Unable to remove " + id)
+				//log.Println("Unable to remove " + id)
+				utils.Dbg(context.Background(), "Unable to remove " + id)
 				continue
 			}
 			gui.Remove(ctrl.ui(Rule{}))

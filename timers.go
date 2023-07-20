@@ -2,13 +2,14 @@ package main
 
 import (
 	"time"
-
-	"log"
+	"fmt"
+	"github.com/kargirwar/golang/utils"
+	"context"
 )
 
 const STOP_AFTER = 10 //seconds
 func start(rules []Rule) {
-	log.Println("Starting timer thread")
+	utils.Dbg(context.Background(), fmt.Sprintln("Starting timer thread"))
 
 	var alarms map[string]map[int][]int
 	alarms = getAlarms(rules)
@@ -19,16 +20,16 @@ func start(rules []Rule) {
 	for {
 		select {
 		case rules = <-timerCh:
-			log.Println(rules)
+			utils.Dbg(context.Background(), fmt.Sprintln(rules))
 			alarms = getAlarms(rules)
-			log.Println(alarms)
+			utils.Dbg(context.Background(), fmt.Sprintln(alarms))
 
 		case t := <-ticker.C:
-			log.Printf("Current time: %s %d %d", t.Weekday(), t.Hour(), t.Minute())
+			utils.Dbg(context.Background(), fmt.Sprintf("Current time: %s %d %d", t.Weekday(), t.Hour(), t.Minute()))
 			for _, m := range alarms[t.Weekday().String()][t.Hour()] {
 				if m == t.Minute() {
 					playerCh <- PLAY
-					log.Printf("Playing alarm")
+					utils.Dbg(context.Background(), fmt.Sprintf("Playing alarm"))
 					time.Sleep(STOP_AFTER * time.Second)
 					playerCh <- STOP //stop alarm after STOP_AFTER unconditionally
 				}
@@ -69,7 +70,7 @@ func getAlarms(rules []Rule) map[string]map[int][]int {
 						}
 
 						alarms[d][h] = mins
-						log.Printf("%s h: %v mins: %v\n", d, h, mins)
+						utils.Dbg(context.Background(), fmt.Sprintf("%s h: %v mins: %v\n", d, h, mins))
 						i++
 						break
 					}
@@ -78,7 +79,7 @@ func getAlarms(rules []Rule) map[string]map[int][]int {
 					//if the alarm falls exactly on the end hour we should play it
 					if m%60 == 0 {
 						alarms[d][e] = []int{0}
-						log.Printf("%s h: %v mins: %v\n", d, e, alarms[d][e])
+						utils.Dbg(context.Background(), fmt.Sprintf("%s h: %v mins: %v\n", d, e, alarms[d][e]))
 					}
 					break
 				}
