@@ -1,10 +1,10 @@
 package main
 
 import (
-	"time"
+	"context"
 	"fmt"
 	"github.com/kargirwar/golang/utils"
-	"context"
+	"time"
 )
 
 const STOP_AFTER = 10 //seconds
@@ -38,7 +38,7 @@ func start(rules []Rule) {
 	}
 }
 
-//for each day, for each hour find the minutes at which alarm should be sounded
+// for each day, for each hour find the minutes at which alarm should be sounded
 func getAlarms(rules []Rule) map[string]map[int][]int {
 	var alarms = make(map[string]map[int][]int)
 	for _, r := range rules {
@@ -89,7 +89,7 @@ func getAlarms(rules []Rule) map[string]map[int][]int {
 	return alarms
 }
 
-//get all hours from start to end , both inclusive
+// get all hours from start to end , both inclusive
 func getHours(s, e int) []int {
 	var hrs []int
 

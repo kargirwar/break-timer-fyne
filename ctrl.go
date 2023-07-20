@@ -1,10 +1,10 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"regexp"
 	"strconv"
-	"context"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"

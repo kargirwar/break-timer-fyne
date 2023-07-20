@@ -1,15 +1,16 @@
 package main
 
 import (
-	"os"
-	"time"
-	"path/filepath"
-	"runtime"
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/natefinch/lumberjack.v2"
+	"os"
+	"path/filepath"
+	"runtime"
+	"time"
 )
 
-const LOG_FILE = "break-timer.log"
+const LOG_FILE = "break-timer-v2.log"
+
 var logger *lumberjack.Logger
 
 func init() {

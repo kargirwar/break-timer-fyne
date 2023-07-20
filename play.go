@@ -1,10 +1,11 @@
 package main
 
 import (
-	"os"
-	"time"
 	"context"
 	"fmt"
+	//"os"
+	"time"
+	"embed"
 
 	"log"
 
@@ -12,13 +13,15 @@ import (
 	"github.com/faiface/beep/mp3"
 	"github.com/faiface/beep/speaker"
 	"github.com/kargirwar/golang/utils"
-	"github.com/kargirwar/golang/utils/macos"
+	"github.com/kargirwar/golang/utils/osutils"
 )
 
+//go:embed beep.mp3
+var f embed.FS
 var buffer *beep.Buffer
 
 func init() {
-	f, err := os.Open("/usr/local/bin/beep.mp3")
+	f, err := f.Open("beep.mp3")
 	if err != nil {
 		utils.Dbg(context.Background(), err.Error())
 		log.Fatal(err)
@@ -55,15 +58,16 @@ func play() {
 				ticker.Stop()
 			}
 		case <-ticker.C:
-			locked, err := macos.IsScreenLocked(context.Background())
+			locked, err := osutils.IsScreenLocked(context.Background())
 			if err == nil {
-				if !locked {
-					shot := buffer.Streamer(0, buffer.Len())
-					speaker.Play(shot)
+				if locked {
+					utils.Dbg(context.Background(), "Screen locked")
 					continue
 				}
 
-				utils.Dbg(context.Background(), "Screen locked")
+				shot := buffer.Streamer(0, buffer.Len())
+				speaker.Play(shot)
+
 			} else {
 				utils.Dbg(context.Background(), err.Error())
 			}

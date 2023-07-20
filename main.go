@@ -1,12 +1,12 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"runtime"
-	"context"
-	"fmt"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -15,7 +15,7 @@ import (
 	"github.com/kargirwar/golang/utils"
 )
 
-const SETTINGS_FILE = "settings.json"
+const SETTINGS_FILE = "settings-v2.json"
 const PLAY = "play"
 const STOP = "stop"
 
@@ -107,12 +107,12 @@ func uiHandler() {
 	for {
 		select {
 		case c := <-ch:
-			utils.Dbg(context.Background(), "Cmd received:" + c.cmd)
+			utils.Dbg(context.Background(), "Cmd received:"+c.cmd)
 			id := c.data.(string)
 			ctrl, ok := ctrls[id]
 			if !ok {
 				//log.Println("Unable to remove " + id)
-				utils.Dbg(context.Background(), "Unable to remove " + id)
+				utils.Dbg(context.Background(), "Unable to remove "+id)
 				continue
 			}
 			gui.Remove(ctrl.ui(Rule{}))
