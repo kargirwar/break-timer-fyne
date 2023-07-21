@@ -12,12 +12,11 @@ import (
 	"github.com/faiface/beep/mp3"
 	"github.com/faiface/beep/speaker"
 	"github.com/kargirwar/golang/utils"
-	"github.com/kargirwar/golang/utils/macos"
+	"github.com/kargirwar/golang/utils/osutils"
 )
 
 //go:embed beep.mp3
 var f embed.FS
-
 var buffer *beep.Buffer
 
 func init() {
@@ -58,7 +57,7 @@ func play() {
 				ticker.Stop()
 			}
 		case <-ticker.C:
-			locked, err := macos.IsScreenLocked(context.Background())
+			locked, err := osutils.IsScreenLocked(context.Background())
 			if err == nil {
 				if locked {
 					utils.Dbg(context.Background(), "Screen locked")
