@@ -15,7 +15,7 @@ import (
 	"github.com/kargirwar/golang/utils"
 )
 
-const SETTINGS_FILE = "settings.json"
+const SETTINGS_FILE = "settings-v2.json"
 const PLAY = "play"
 const STOP = "stop"
 

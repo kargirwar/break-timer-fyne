@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-const LOG_FILE = "break-timer.log"
+const LOG_FILE = "break-timer-v2.log"
 
 var logger *lumberjack.Logger
 

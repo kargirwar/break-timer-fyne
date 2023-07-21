@@ -3,11 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
-	"os"
 	"time"
 
 	"log"
 
+	"embed"
 	"github.com/faiface/beep"
 	"github.com/faiface/beep/mp3"
 	"github.com/faiface/beep/speaker"
@@ -15,10 +15,13 @@ import (
 	"github.com/kargirwar/golang/utils/macos"
 )
 
+//go:embed beep.mp3
+var f embed.FS
+
 var buffer *beep.Buffer
 
 func init() {
-	f, err := os.Open("/usr/local/bin/beep.mp3")
+	f, err := f.Open("beep.mp3")
 	if err != nil {
 		utils.Dbg(context.Background(), err.Error())
 		log.Fatal(err)
